@@ -46,6 +46,7 @@ function render(){
         bookDiv.id = i;
         bookDiv.className = "bookCard";
         i++;
+
         // we want to create a element for each property of the book 
         //create the title p element
         title = document.createElement("p");
@@ -73,8 +74,7 @@ function render(){
         read = document.createElement("p");
         read.textContent = "read: "+ book.read;
         bookDiv.appendChild(read);
-
-
+        
 
         //add the bookDiv to the container
         bookContainer.appendChild(bookDiv);
@@ -83,3 +83,15 @@ function render(){
     }
 }
 render();
+
+
+const addButton = document.querySelector("#addButton");
+addButton.addEventListener("click" , () =>{
+    alert("Hello world!");
+});
+addButton.addEventListener("mouseover", ()=>{
+    addButton.style.filter = "drop-shadow(0 0  5px #333)";
+});
+addButton.addEventListener("mouseleave", ()=>{
+    addButton.style.filter = "";
+});
