@@ -54,15 +54,18 @@ table {
 
 html{
     background-color:white;
+    
 }
 
 #bookContainer{
+    padding-top:5em;
     width:95vw;
     color:white;
     display: flex;
     flex-wrap:wrap;
     justify-content:flex-start;
-    margin: 0 auto;    
+    margin: 0 auto;   
+    
   
 
     
@@ -74,21 +77,27 @@ html{
     min-height: 30vh;
     border-radius: .2em;
     padding-top:6em;
-    margin: 0 auto;   
+    margin: 1em;   
     margin-top: 1em;
     margin-bottom:1em;
     font-size:1.5em;
+    box-shadow: 0 0 .3em #333; 
 
 
 }
 
-#navbar{
+nav{
     background-color:#304b6e;
     font-size:2em;
     height:1em;
     display:block;
     color:white;
     padding:1em;
+    position:fixed;
+    width:100vw;
+    box-shadow: 0 0 .3em #333; 
+
+    
 }
 
 /*
