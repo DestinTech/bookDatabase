@@ -87,6 +87,19 @@ html{
 }
 
 nav{
+    display:flex;
+    justify-content:flex-end;
+    flex-wrap:wrap;
+    margin-right:3em;
+    
+
+
+    
+}
+#title{
+    display:inline;
+}
+#header{
     background-color:#304b6e;
     font-size:2em;
     height:1em;
@@ -97,7 +110,9 @@ nav{
     width:100vw;
     box-shadow: 0 0 .3em #333; 
 
-    
+}
+#addButton{
+    display:inline;
 }
 
 /*
