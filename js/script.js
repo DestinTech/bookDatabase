@@ -85,10 +85,52 @@ function render(){
 render();
 
 
+
 const addButton = document.querySelector("#addButton");
+const modal = document.querySelector("#myModal");
+const closeButton = document.querySelector("#closeModal");
+const modalContent = document.querySelector("#modalContent");
+
+
+//opens modal box
 addButton.addEventListener("click" , () =>{
-    alert("Hello world!");
+    //set the box off screen, and then animate the block on to the screen
+    //then we use a timer to put the box on the screen in 300ms
+    modal.style.display = "block";
+    modalContent.animate([
+        {bottom: "101vh"},
+        {bottom: "0"}
+    ],
+        300
+    );
 });
+
+//closes the modal box if the user clicks on the close span(x)
+closeButton.onclick = function(){
+    modalContent.animate([
+        {bottom: "0"},
+        {bottom: "101vh"}
+    ],
+        300
+    );
+    setTimeout(() =>{modal.style.display = "none"},300);
+   
+}
+
+window.onclick = function(event){
+    if (event.target == modal){
+        modalContent.animate([
+            {bottom: "0"},
+            {bottom: "101vh"}
+        ],
+            300
+        );
+        setTimeout( () =>{modal.style.display = "none"},300);
+    }
+}
+
+
+//Add a drop shadow to the addButton
 addButton.addEventListener("mouseover", ()=>{
     addButton.style.filter = "drop-shadow(0 0  5px white)";
 });
