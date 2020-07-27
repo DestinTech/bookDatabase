@@ -90,7 +90,7 @@ addButton.addEventListener("click" , () =>{
     alert("Hello world!");
 });
 addButton.addEventListener("mouseover", ()=>{
-    addButton.style.filter = "drop-shadow(0 0  5px #333)";
+    addButton.style.filter = "drop-shadow(0 0  5px white)";
 });
 addButton.addEventListener("mouseleave", ()=>{
     addButton.style.filter = "";
