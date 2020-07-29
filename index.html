@@ -19,8 +19,23 @@
     <div id="myModal" class="modal">
 
         <div id="modalContent" class="modalContent">
-
             <span id="closeModal">&times;</span>
+
+            <!--add modal content here-->
+            <form id="newBookForm">
+                <label for="name">Book name:</label>
+                <input id ="name" type="text"><br>
+                <label for="author">author:</label>
+                <input id ="author" type="text"><br>
+                <label for="pages">Pages:</label>
+                <input id="pages" type="text"><br>
+                <label for="read">Already read?</label>
+                <input id="read" type="checkbox"><br>
+                
+                <button onclick="addBookToLibrary(this.form)" id="addBookButton">Add book</button>
+
+            </form>
+        
         </div>
     </div>
 

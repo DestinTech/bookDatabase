@@ -1,7 +1,6 @@
 let myLibrary = [];
 const bookContainer = document.querySelector("#bookContainer");
 
-
 // object constructor for book library
 function Book(title, author, pages, read){
     this.title = title;
@@ -20,25 +19,25 @@ function Book(title, author, pages, read){
     }
 }
 
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
-myLibrary.push( new Book("The Alchemist", "unknown", "unknown", false));
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
-myLibrary.push( new Book("The Alchemist", "unknown", "unknown", false));
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
-myLibrary.push(new Book("the Great Gatsby", "unknown", "unknown", false));
 
-
-function addBookToLibrary(){
-    //
-}
+function addBookToLibrary(form){ //we pass a form to javascript for processing 
+   
+    /*when addBookToLibrary button is clicked, we need to pull data from the inputs,
+set them to variables and then use the addBookToLibrary function with
+those parameters
+*/ 
+      let name = form.name.value;
+      let author = form.author.value;
+      let pages =form.pages.value; 
+      let read = form.read.value;
+    let newBook = new Book(name, author, pages, read);
+    myLibrary.push(newBook);
+    console.log(newBook);
+    render();
+  }
     
 function render(){
+    bookContainer.innerHTML = "";
     let i =0;
     //loop through the books in the array and print to screen
     for (let book of myLibrary){
@@ -82,7 +81,17 @@ function render(){
 
     }
 }
-render();
+
+
+function closeModal(){
+    modalContent.animate([
+        {bottom: "0"},
+        {bottom: "101vh"}
+    ],
+        300
+    );
+    setTimeout( () =>{modal.style.display = "none"},300);
+}
 
 
 
@@ -105,30 +114,18 @@ addButton.addEventListener("click" , () =>{
     );
 });
 
+
 //closes the modal box if the user clicks on the close span(x)
 closeButton.onclick = function(){
-    modalContent.animate([
-        {bottom: "0"},
-        {bottom: "101vh"}
-    ],
-        300
-    );
-    setTimeout(() =>{modal.style.display = "none"},300);
+    closeModal();
    
 }
 
 window.onclick = function(event){
     if (event.target == modal){
-        modalContent.animate([
-            {bottom: "0"},
-            {bottom: "101vh"}
-        ],
-            300
-        );
-        setTimeout( () =>{modal.style.display = "none"},300);
+        closeModal();
     }
 }
-
 
 //Add a drop shadow to the addButton
 addButton.addEventListener("mouseover", ()=>{
@@ -137,3 +134,15 @@ addButton.addEventListener("mouseover", ()=>{
 addButton.addEventListener("mouseleave", ()=>{
     addButton.style.filter = "";
 });
+
+
+
+document.querySelector("#addBookButton").addEventListener("click", function(event){
+    event.preventDefault();
+});
+
+
+
+//main
+
+render();
