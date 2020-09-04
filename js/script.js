@@ -1,5 +1,18 @@
 let myLibrary = [];
 const bookContainer = document.querySelector("#bookContainer");
+/*make a modal class so you can create new modals, 
+instead of having spaghetti.
+
+
+make a bookContainer class
+add a bookContainer.render
+add book function to it also and anytjing related.
+set up a method for anything else that is needed for diplay control/
+flow control
+
+refactor to use classes instead of object constuctors
+
+*/
 
 // object constructor for book library
 function Book(title, author, pages, read){
@@ -25,11 +38,12 @@ function addBookToLibrary(form){ //we pass a form to javascript for processing
     /*when addBookToLibrary button is clicked, we need to pull data from the inputs,
 set them to variables and then use the addBookToLibrary function with
 those parameters
-*/ 
-      let name = form.name.value;
-      let author = form.author.value;
-      let pages =form.pages.value; 
-      let read = form.read.value;
+*/
+    
+    let name = form.name.value;
+    let author = form.author.value;
+    let pages =form.pages.value; 
+    let read = form.read.value;
     let newBook = new Book(name, author, pages, read);
     myLibrary.push(newBook);
     console.log(newBook);
@@ -54,6 +68,12 @@ function render(){
         
         //append the p element to the bookDiv
         bookDiv.appendChild(title);
+        //create a button that removes the el
+        let removeButton = document.createElement('button');
+        removeButton.textContent = "X";
+        removeButton.style.display = "inline";
+        bookDiv.appendChild(removeButton);
+        
 
         //create the author p element
         author = document.createElement("p");
@@ -69,7 +89,7 @@ function render(){
         //append the p element to the bookDiv
         bookDiv.appendChild(pages);
 
-        
+
         read = document.createElement("p");
         read.textContent = "read: "+ book.read;
         bookDiv.appendChild(read);
@@ -81,6 +101,7 @@ function render(){
 
     }
 }
+
 
 
 function closeModal(){
@@ -142,7 +163,8 @@ document.querySelector("#addBookButton").addEventListener("click", function(even
 });
 
 
+const removeButtons = document.querySelectorAll('removeButton');
+console.log(removeButton);
 
 //main
-
 render();

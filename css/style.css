@@ -85,6 +85,12 @@ html{
 
 
 }
+.bookCard > button {
+    display:inline;
+    position:relative;
+    bottom:11em;
+    left:5em;
+}
 
 nav{
     display:flex;
