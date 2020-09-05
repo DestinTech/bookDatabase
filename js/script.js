@@ -1,7 +1,9 @@
 let myLibrary = [];
 const bookContainer = document.querySelector("#bookContainer");
-/*make a modal class so you can create new modals, 
-instead of having spaghetti.
+/*
+
+TODO:
+make a modal class so you can create new modals, instead of having spaghetti.
 
 
 make a bookContainer class
@@ -33,22 +35,6 @@ function Book(title, author, pages, read){
 }
 
 
-function addBookToLibrary(form){ //we pass a form to javascript for processing 
-   
-    /*when addBookToLibrary button is clicked, we need to pull data from the inputs,
-set them to variables and then use the addBookToLibrary function with
-those parameters
-*/
-    
-    let name = form.name.value;
-    let author = form.author.value;
-    let pages =form.pages.value; 
-    let read = form.read.value;
-    let newBook = new Book(name, author, pages, read);
-    myLibrary.push(newBook);
-    console.log(newBook);
-    render();
-  }
     
 function render(){
     bookContainer.innerHTML = "";
@@ -102,53 +88,86 @@ function render(){
     }
 }
 
+ const addBookModal = (()=>{
 
+    //grab the objects from the dom from the HTML
+    const addButton = document.querySelector("#addButton");
+    const modal = document.querySelector("#myModal");
+    const closeButton = document.querySelector("#closeModal");
+    const modalContent = document.querySelector("#modalContent");
+    
+    
 
-function closeModal(){
-    modalContent.animate([
-        {bottom: "0"},
-        {bottom: "101vh"}
-    ],
-        300
-    );
-    setTimeout( () =>{modal.style.display = "none"},300);
-}
-
-
-
-const addButton = document.querySelector("#addButton");
-const modal = document.querySelector("#myModal");
-const closeButton = document.querySelector("#closeModal");
-const modalContent = document.querySelector("#modalContent");
-
-
-//opens modal box
-addButton.addEventListener("click" , () =>{
-    //set the box off screen, and then animate the block on to the screen
-    //then we use a timer to put the box on the screen in 300ms
-    modal.style.display = "block";
-    modalContent.animate([
-        {bottom: "101vh"},
-        {bottom: "0"}
-    ],
-        300
-    );
-});
-
-
-//closes the modal box if the user clicks on the close span(x)
-closeButton.onclick = function(){
-    closeModal();
-   
-}
-
-window.onclick = function(event){
-    if (event.target == modal){
-        closeModal();
+    //add an event listener for to close the modal box
+    window.onclick = function(event){
+        if (event.target == modal){
+            closeModal();
+        }
     }
-}
 
-//Add a drop shadow to the addButton
+    function addBook(form){ //we pass a form to javascript for processing 
+   
+        /*when addBookToLibrary button is clicked, we need to pull data from the inputs,
+    set them to variables and then use the addBookToLibrary function with
+    those parameters
+    */
+        
+        let name = form.name.value;
+        let author = form.author.value;
+        let pages =form.pages.value; 
+        let read = form.read.value;
+        let newBook = new Book(name, author, pages, read);
+        myLibrary.push(newBook);
+        console.log(newBook);
+        render();
+      }
+    
+
+     //function that fires to close modal box
+    function closeModal(){
+        //animate modal box to raise 1% of the viewport height off screen
+        modalContent.animate([
+            {bottom: "0"},
+            {bottom: "101vh"}
+        ],
+            300
+        );
+        //sets modal as invisible once off screen 
+        setTimeout( () =>{modal.style.display = "none"},300);
+    }
+    
+    //Display the modal box
+    addButton.addEventListener("click" , () =>{
+        //set the box off screen, and then animate the block on to the screen
+        //then we use a timer to put the box on the screen in 300ms
+        modal.style.display = "block";
+        modalContent.animate([
+            {bottom: "101vh"},
+            {bottom: "0"}
+        ],
+            300
+        );
+    });
+    
+    //closes the modal box if the user clicks on the close span(x)
+        closeButton.onclick = function(){
+            closeModal();
+        }
+        
+
+    //prevent leaving the page once the addBookButton is clicked    
+    document.querySelector("#addBookButton").addEventListener("click", function(event){
+        event.preventDefault();
+    });
+    return {addBook};
+})();
+
+
+
+
+
+//Add book button
+//Add a drop shadow to the addButton (+) on landing page
 addButton.addEventListener("mouseover", ()=>{
     addButton.style.filter = "drop-shadow(0 0  5px white)";
 });
@@ -156,13 +175,7 @@ addButton.addEventListener("mouseleave", ()=>{
     addButton.style.filter = "";
 });
 
-
-
-document.querySelector("#addBookButton").addEventListener("click", function(event){
-    event.preventDefault();
-});
-
-
+//remove book button 
 const removeButtons = document.querySelectorAll('removeButton');
 console.log(removeButton);
 
