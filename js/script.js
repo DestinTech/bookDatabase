@@ -17,11 +17,12 @@ refactor to use classes instead of object constuctors
 */
 
 // object constructor for book library
-function Book(title, author, pages, read){
+function Book(title, author, pages, read, id){
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
+    this.id = id;
 
     this.info = function(){
         if (read == true){
@@ -33,16 +34,14 @@ function Book(title, author, pages, read){
         return `${title} by ${author}, ${pages} pages, ${readText}.`;
     }
 }
-
-
-    
+//Creates book cards 
 function render(){
     bookContainer.innerHTML = "";
     let i =0;
     //loop through the books in the array and print to screen
     for (let book of myLibrary){
         let bookDiv = document.createElement("div");
-        bookDiv.id = i;
+        bookDiv.id = book.id;
         bookDiv.className = "bookCard";
         i++;
 
@@ -54,9 +53,12 @@ function render(){
         
         //append the p element to the bookDiv
         bookDiv.appendChild(title);
-        //create a button that removes the el
+
+        //create a REMOVE button that removes the el
         let removeButton = document.createElement('button');
         removeButton.textContent = "X";
+        removeButton.className = "removeButton";
+        removeButton.id = bookDiv.id; // add an index number to the button
         removeButton.style.display = "inline";
         bookDiv.appendChild(removeButton);
         
@@ -83,22 +85,38 @@ function render(){
 
         //add the bookDiv to the container
         bookContainer.appendChild(bookDiv);
-        console.log("added "+book.title);
 
     }
+
+    //create listener for book button (on book element)
+    //Here we inplement the book "close button"
+    removeButtons = document.querySelectorAll('.removeButton');
+    removeButtons.forEach((button) => {
+
+        button.addEventListener('click', () => {
+            let index = 0;
+            //check for existance of the ID of the button, if it exists, mark the index of the entry in a variable.
+            for (let book in myLibrary){
+                console.log(myLibrary[book].id + " "+  button.id)
+                if( myLibrary[book].id == button.id){
+                    myLibrary.splice(book, 1);
+                    render();
+                }
+
+            }
+        });
+    });
+    
 }
 
  const addBookModal = (()=>{
-
-    //grab the objects from the dom from the HTML
+    //grab the objects from the DOM
     const addButton = document.querySelector("#addButton");
     const modal = document.querySelector("#myModal");
     const closeButton = document.querySelector("#closeModal");
     const modalContent = document.querySelector("#modalContent");
     
-    
-
-    //add an event listener for to close the modal box
+    //add an event listener  to close the modal box when background is clicked
     window.onclick = function(event){
         if (event.target == modal){
             closeModal();
@@ -107,20 +125,24 @@ function render(){
 
     function addBook(form){ //we pass a form to javascript for processing 
    
-        /*when addBookToLibrary button is clicked, we need to pull data from the inputs,
+    /*when addBookToLibrary button is clicked, we need to pull data from the inputs,
     set them to variables and then use the addBookToLibrary function with
     those parameters
     */
-        
         let name = form.name.value;
         let author = form.author.value;
         let pages =form.pages.value; 
         let read = form.read.value;
-        let newBook = new Book(name, author, pages, read);
+        let newBook = new Book(name, author, pages, read, myLibrary.length);
         myLibrary.push(newBook);
+        //TODO: set a response in the form to inform the user if the book was added successfully. 
+
+
         console.log(newBook);
         render();
-      }
+
+    }      
+
     
 
      //function that fires to close modal box
@@ -162,11 +184,7 @@ function render(){
     return {addBook};
 })();
 
-
-
-
-
-//Add book button
+//Add book button (main screen)
 //Add a drop shadow to the addButton (+) on landing page
 addButton.addEventListener("mouseover", ()=>{
     addButton.style.filter = "drop-shadow(0 0  5px white)";
@@ -175,9 +193,8 @@ addButton.addEventListener("mouseleave", ()=>{
     addButton.style.filter = "";
 });
 
-//remove book button 
-const removeButtons = document.querySelectorAll('removeButton');
-console.log(removeButton);
+
+
 
 //main
 render();
