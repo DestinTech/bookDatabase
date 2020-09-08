@@ -90,9 +90,13 @@ function render(){
 
     //create listener for book button (on book element)
     //Here we inplement the book "close button"
-    removeButtons = document.querySelectorAll('.removeButton');
+    let removeButtons = document.querySelectorAll('.removeButton');
+    console.log(removeButtons);
     removeButtons.forEach((button) => {
-
+        /*BUG: this method allows duplicate ID's to be created
+        find higest ID in list, add 1
+            
+        */
         button.addEventListener('click', () => {
             let index = 0;
             //check for existance of the ID of the button, if it exists, mark the index of the entry in a variable.
@@ -110,6 +114,7 @@ function render(){
 }
 
  const addBookModal = (()=>{
+    let IDCounter = 0 ;
     //grab the objects from the DOM
     const addButton = document.querySelector("#addButton");
     const modal = document.querySelector("#myModal");
@@ -124,7 +129,6 @@ function render(){
     }
 
     function addBook(form){ //we pass a form to javascript for processing 
-   
     /*when addBookToLibrary button is clicked, we need to pull data from the inputs,
     set them to variables and then use the addBookToLibrary function with
     those parameters
@@ -133,7 +137,10 @@ function render(){
         let author = form.author.value;
         let pages =form.pages.value; 
         let read = form.read.value;
-        let newBook = new Book(name, author, pages, read, myLibrary.length);
+        console.log("IDCounter = "+ IDCounter);
+
+        let newBook = new Book(name, author, pages, read, IDCounter);
+        IDCounter++;
         myLibrary.push(newBook);
         //TODO: set a response in the form to inform the user if the book was added successfully. 
 
@@ -177,7 +184,7 @@ function render(){
         }
         
 
-    //prevent leaving the page once the addBookButton is clicked    
+    //prevent leaving the page once the addBookButton is clicked  (default action is to send to a URL to process)  
     document.querySelector("#addBookButton").addEventListener("click", function(event){
         event.preventDefault();
     });
