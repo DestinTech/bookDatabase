@@ -21,7 +21,7 @@ function Book(title, author, pages, read, id){
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = read;
+    this.read = false;
     this.id = id;
 
     this.info = function(){
@@ -34,6 +34,8 @@ function Book(title, author, pages, read, id){
         return `${title} by ${author}, ${pages} pages, ${readText}.`;
     }
 }
+
+
 //Creates book cards 
 function render(){
     bookContainer.innerHTML = "";
@@ -61,7 +63,6 @@ function render(){
         removeButton.id = bookDiv.id; // add an index number to the button
         removeButton.style.display = "inline";
         bookDiv.appendChild(removeButton);
-        
 
         //create the author p element
         author = document.createElement("p");
@@ -78,6 +79,15 @@ function render(){
         bookDiv.appendChild(pages);
 
 
+                //TODO: Create a button to toggle the read status
+
+        let readButton = document.createElement('button');
+        readButton.textContent = "not read";
+        readButton.className = "readButton";
+        readButton.id = bookDiv.id;
+        readButton.style.display = "inline";
+        bookDiv.appendChild(readButton);        
+        
         read = document.createElement("p");
         read.textContent = "read: "+ book.read;
         bookDiv.appendChild(read);
@@ -88,20 +98,16 @@ function render(){
 
     }
 
-    //create listener for book button (on book element)
-    //Here we inplement the book "close button"
     let removeButtons = document.querySelectorAll('.removeButton');
-    console.log(removeButtons);
     removeButtons.forEach((button) => {
-        /*BUG: this method allows duplicate ID's to be created
-        find higest ID in list, add 1
+        /*BUG *FIXED*: this method allows duplicate ID's to be created
+            find higest ID in list, add 1
             
         */
         button.addEventListener('click', () => {
             let index = 0;
             //check for existance of the ID of the button, if it exists, mark the index of the entry in a variable.
             for (let book in myLibrary){
-                console.log(myLibrary[book].id + " "+  button.id)
                 if( myLibrary[book].id == button.id){
                     myLibrary.splice(book, 1);
                     render();
@@ -110,8 +116,33 @@ function render(){
             }
         });
     });
+    let toggleReadClass = document.querySelectorAll(".readButton");
+
+    toggleReadClass.forEach((button) =>{
+
+        button.addEventListener('click', () =>{
+            toggleRead(button.id);
+
+        });
+    });
     
+    //This function will access the readStatus of the id
+    /*This function will access the myLibrary array, looking for the correct ID in the array.
+    This function will access the readStatus of the id
+    */
+    function toggleRead(id){
+        for (let book in myLibrary){
+            if (myLibrary[book].id == id){
+                console.log(myLibrary[book].id);
+                myLibrary[book].read =! myLibrary[book].read;
+                render();
+            }
+            
+        }
+    }
 }
+
+
 
  const addBookModal = (()=>{
     let IDCounter = 0 ;
@@ -137,15 +168,12 @@ function render(){
         let author = form.author.value;
         let pages =form.pages.value; 
         let read = form.read.value;
-        console.log("IDCounter = "+ IDCounter);
 
         let newBook = new Book(name, author, pages, read, IDCounter);
         IDCounter++;
         myLibrary.push(newBook);
         //TODO: set a response in the form to inform the user if the book was added successfully. 
 
-
-        console.log(newBook);
         render();
 
     }      
@@ -200,8 +228,9 @@ addButton.addEventListener("mouseleave", ()=>{
     addButton.style.filter = "";
 });
 
-
-
-
 //main
+
+
+
+
 render();
